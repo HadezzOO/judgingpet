@@ -49,10 +49,10 @@ export default function Dashboard() {
   }
 
   const handleAnalyze = async () => {
-    if (!screenshot) { setError(t.errNoScreenshot); return }
-    if (!matchDate || !matchTime) { setError(t.errNoDate); return }
-    if (!agreed) { setError(t.errNoAgree); return }
-    if (!licenseData || licenseData.credits_remaining <= 0) { setError(t.errNoCredits); return }
+    if (!screenshot) { setError(String(t.errNoScreenshot)); return }
+if (!matchDate || !matchTime) { setError(String(t.errNoDate)); return }
+if (!agreed) { setError(String(t.errNoAgree)); return }
+if (!licenseData || licenseData.credits_remaining <= 0) { setError(String(t.errNoCredits)); return }
     setAnalyzing(true); setError(''); setResult('')
     try {
       const formData = new FormData()
