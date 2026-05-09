@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
   const { key } = await request.json()
@@ -8,19 +8,27 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Brak klucza' }, { status: 400 })
   }
 
-  const { data, error } = await supabaseAdmin
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+
+  const { data, error } = await supabase
     .from('license_keys')
     .select('*')
-    .eq('key', key.toUpperCase())
-    .eq('is_active', true)
+    .eq('key', key.trim().toUpperCase())
     .single()
 
   if (error || !data) {
-    return NextResponse.json({ error: 'Nieprawidłowy klucz licencyjny' }, { status: 401 })
+    return NextResponse.json({ error: `Błąd: ${error?.message || 'Nie znaleziono'}` }, { status: 401 })
+  }
+
+  if (!data.is_active) {
+    return NextResponse.json({ error: 'Klucz nieaktywny' }, { status: 403 })
   }
 
   if (data.credits_remaining <= 0) {
-    return NextResponse.json({ error: 'Brak dostępnych analiz. Kup kolejny pakiet.' }, { status: 403 })
+    return NextResponse.json({ error: 'Brak analiz' }, { status: 403 })
   }
 
   return NextResponse.json({
