@@ -70,7 +70,7 @@ if (!licenseData || licenseData.credits_remaining <= 0) { setError(String(t.errN
       setLicenseData(updated)
       sessionStorage.setItem('license_data', JSON.stringify(updated))
       setAgreed(false)
-    } catch { setError(t.errConnection) }
+   } catch { setError(String(t.errConnection)) }
     finally { setAnalyzing(false) }
   }
 
