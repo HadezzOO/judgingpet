@@ -1,7 +1,6 @@
 export type Lang = 'pl' | 'en' | 'de' | 'cs' | 'hu' | 'sk' | 'uk' | 'ru'
 
-export const T: Record<Lang, Record<string, string>> = {
-  pl: {
+export const T: Record<Lang, Record<string, string | string[]>> = {  pl: {
     tagline: 'AI Sports Analysis Platform',
     enterKey: 'Wprowadź klucz licencyjny',
     keyDesc: 'Klucz otrzymałeś na email po zakupie pakietu',
