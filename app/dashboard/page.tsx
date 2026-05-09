@@ -192,7 +192,7 @@ export default function Dashboard() {
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,140,0,0.7)" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               <span className="text-xs font-medium" style={{color: 'rgba(255,140,0,0.8)'}}>{t.howTo}</span>
             </div>
-            {t.tips.map((tip: string, i: number) => (
+            {(t.tips as string[]).map((tip: string, i: number) => (
               <div key={i} className="flex items-start gap-2 mb-1.5">
                 <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{background: 'rgba(255,140,0,0.4)'}}/>
                 <p className="text-xs text-white opacity-60">{tip}</p>
