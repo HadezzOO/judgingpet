@@ -102,7 +102,7 @@ export default function Home() {
         <div className="flex items-center justify-between mt-4">
           <p className="text-sm" style={{color: 'rgba(255,255,255,0.3)'}}>
             {t!.noKey}{' '}
-            <a href="https://twojsklep.myshopify.com" style={{color: '#ff8c00'}} target="_blank">{t!.buyPackage}</a>
+            <a href="https://judgingpet.com/" style={{color: '#ff8c00'}} target="_blank">{t!.buyPackage}</a>
           </p>
           <button onClick={() => setLang(null)} className="text-xs px-3 py-1.5 rounded-lg" style={{color: 'rgba(255,140,0,0.6)', border: '1px solid rgba(255,140,0,0.15)'}}>
             {LANG_NAMES[lang]}
