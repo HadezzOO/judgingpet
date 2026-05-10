@@ -5,6 +5,17 @@ import { LANG_PROMPT } from '@/lib/translations'
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
+const sectionHeaders = {
+  pl: { place: 'MIEJSCE I WARUNKI', math: 'ANALIZA MATEMATYCZNA', verdict: 'WERDYKT' },
+  en: { place: 'PLACE AND CONDITIONS', math: 'MATHEMATICAL ANALYSIS', verdict: 'VERDICT' },
+  de: { place: 'ORT UND BEDINGUNGEN', math: 'MATHEMATISCHE ANALYSE', verdict: 'ERGEBNIS' },
+  cs: { place: 'MÍSTO A PODMÍNKY', math: 'MATEMATICKÁ ANALÝZA', verdict: 'ZÁVĚR' },
+  hu: { place: 'HELYSZÍN ÉS KÖRÜLMÉNYEK', math: 'MATEMATIKAI ELEMZÉS', verdict: 'EREDMÉNY' },
+  sk: { place: 'MIESTO A PODMIENKY', math: 'MATEMATICKÁ ANALÝZA', verdict: 'ZÁVER' },
+  uk: { place: 'МІСЦЕ ТА УМОВИ', math: 'МАТЕМАТИЧНИЙ АНАЛІЗ', verdict: 'ВЕРДИКТ' },
+  ru: { place: 'МЕСТО И УСЛОВИЯ', math: 'МАТЕМАТИЧЕСКИЙ АНАЛИЗ', verdict: 'ВЕРДИКТ' },
+}
+
 export async function POST(request: NextRequest) {
   const formData = await request.formData()
   const licenseKey = formData.get('license_key') as string
@@ -27,6 +38,7 @@ export async function POST(request: NextRequest) {
     : ''
 
   const langInstruction = LANG_PROMPT[lang as keyof typeof LANG_PROMPT] || LANG_PROMPT['pl']
+  const h = sectionHeaders[lang as keyof typeof sectionHeaders] || sectionHeaders['pl']
 
   const systemPrompt = `You are a professional sports analyst with over 20 years of experience. You analyze matches based purely on statistics — never on betting odds.
 
@@ -42,16 +54,16 @@ RULES:
 
 RESPONSE FORMAT — exactly these three sections in order:
 
-📍 PLACE AND CONDITIONS
+📍 ${h.place}
 Stadium and city. Weather forecast for match day: temperature, rain chance, wind, humidity. How weather conditions affect both teams' playing style — explained simply.
 
-📊 MATHEMATICAL ANALYSIS
+📊 ${h.math}
 Average goals scored and conceded per match by each team (in simple terms like "Bayern scores about 3 goals per game and concedes less than 1").
 Home vs away win rate for both teams in %.
 Average ball possession and shots on target per match.
 Win rate in similar weather conditions.
 
-🎯 VERDICT
+🎯 ${h.verdict}
 Team X vs Team Y has a WIN probability of XYZ percent.
 Write 3-4 sentences of simple explanation why — avoid technical jargon, explain like talking to a friend.`
 
